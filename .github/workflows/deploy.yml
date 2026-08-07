@@ -1,0 +1,30 @@
+name: Deploy GitHub Pages con Token
+
+on:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Obtener codigo del repositorio
+        uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.PAGES_TOKEN }}
+
+      - name: Verificar archivos del sitio
+        run: |
+          echo "Archivos encontrados:"
+          ls -la
+          echo "Sitio listo para desplegar"
+
+      - name: Deploy a GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          personal_token: ${{ secrets.PAGES_TOKEN }}
+          publish_dir: ./
